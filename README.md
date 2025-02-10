@@ -2,7 +2,7 @@
 
 [futurist](https://futurist.io) is a concept framework for creating desktop-like UI experiences in the browser.
 
-![Futurist desktop example](../images/futurist-desktop-example.png)
+![Futurist desktop example](docs/images/futurist-desktop-example.png)
 
 ✎ **Please Note:**
     

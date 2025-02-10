@@ -1,0 +1,65 @@
+site_name: futurist // docs
+site_url: https://docs.futurist.io
+theme:
+  name: material
+  icon:
+    logo: false
+    previous: fontawesome/solid/angle-left
+    next: fontawesome/solid/angle-right
+  palette:
+    - scheme: futurist-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: futurist-light
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+  features:
+    - search.suggest
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - glightbox
+
+nav:
+  - Introduction: index.md
+  - Project Background: project_background.md
+  - Framework Guide:
+        - Architecture: framework/architecture.md
+        - Standard States: framework/standard_states.md
+        - Custom States: framework/custom_states.md
+        - App Walkthrough: framework/app_walkthrough.md
+  - Setup Guide:
+    - Quick Start: setup_guide/quick_start.md
+    - Basic Setup: setup_guide/basic_setup.md
+    - Adding Applications: setup_guide/adding_applications.md
+  - Development:
+    - Quick Start: development/quick_start.md
+    - Example Apps: development/example_apps.md
+    - Component Overview: components/overview.md
+    - Component Library:
+        - BaseWindow: components/basewindow.md
+        - Button: components/button.md
+        - Input: components/input.md
+        - Shortcut: components/shortcut.md
+        - ShortcutContainer: components/shortcutcontainer.md
+        - Tab: components/tab.md
+        - TabContainer: components/tabcontainer.md
+        - TitleBar: components/titlebar.md
+        - WindowInner: components/windowinner.md
+        - WindowInset: components/windowinset.md
+        - WindowSpacing: components/windowspacing.md
+        - WindowTitle: components/windowtitle.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

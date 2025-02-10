@@ -1,0 +1,134 @@
+/*
+- Keep sidebar functionality
+- Custom list item elsewhere
+*/
+li.md-nav__item {
+    position: static;
+}
+
+li {
+    position: relative;
+    list-style: none;
+}
+
+.md-nav--primary .md-nav__title {
+    height: 3em;
+    padding: 0;
+    text-align: center;
+}
+
+.md-nav--primary .md-nav__title .md-logo {
+    display: none;
+}
+
+[data-md-color-scheme="futurist-light"] {
+  --md-primary-fg-color:        #AEB4A9; /* */
+  --md-primary-bg-color:        black; /* nav font color */
+  --md-default-bg-color:        #FFF;
+  --md-default-fg-color--light: #a30b37;
+  --md-primary-fg-color--light: black;
+  --md-primary-fg-color--dark:  #90030C;
+  --md-text-font-family: "monospace";
+}
+
+[data-md-color-scheme="futurist-light"] h2 {
+    color: #a30b37;
+    margin: 0;
+    text-align: center;
+}
+
+[data-md-color-scheme="futurist-light"] hr {
+    height: 0;
+    border: .15em black dashed;
+    margin: 0;
+}
+
+[data-md-color-scheme="futurist-light"] li:before {
+    content: "*";
+    position: absolute;
+    left: -.75em;
+    margin: auto;
+    color: #a30b37;
+    font-size: 1.25em;
+}
+
+[data-md-color-scheme="futurist-dark"] {
+  --md-primary-fg-color:        #000; /* nav color */
+  --md-primary-bg-color:        #6BF178; /* nav font color */
+  --md-default-bg-color:        #02111b;
+  --md-default-fg-color--light: white;
+  --md-primary-fg-color--light: #000051;
+  --md-default-fg-color--lightest: #000;
+  --md-primary-fg-color--dark:  white;
+  --md-typeset-color: white;
+  --md-text-font-family: "monospace";
+  --md-typeset-a-color: #6bf178; /* link color */
+  --md-shadow-z3: .15rem 0.15rem #E2E;
+  --md-code-fg-color: yellow;
+  --md-code-bg-color: black;
+  --md-typeset-h2-color: orange;
+}
+
+[data-md-color-scheme="futurist-dark"] h1 {
+    color: yellow;
+}
+
+[data-md-color-scheme="futurist-dark"] h2 {
+    color: fuchsia;
+    margin: .25em;
+    text-align: center;
+}
+
+[data-md-color-scheme="futurist-dark"] h3 {
+    color: yellow;
+    margin: .5em;
+}
+
+[data-md-color-scheme="futurist-dark"] hr {
+    height: 0;
+    border: .15em cyan dashed;
+    margin: 0;
+}
+
+[data-md-color-scheme="futurist-dark"] code {
+    box-shadow: .2em .2em fuchsia!important;
+    border: outset .2em cyan;
+    background-color: #02111b;
+    color: #6bf178;
+}
+
+[data-md-color-scheme="futurist-dark"] li:before {
+    content: "*";
+    position: absolute;
+    left: -.75em;
+    margin: auto;
+    color: #e2e;
+    font-size: 1.25em;
+}
+
+[data-md-color-scheme="futurist-dark"] .admonition.note {
+    border-color: yellow;
+    background-color: #02111b;
+    color: white;
+}
+
+[data-md-color-scheme="futurist-dark"] .admonition-title:before {
+    background-color: black!important;
+}
+
+[data-md-color-scheme="futurist-dark"] .admonition-title {
+    background-color: yellow!important;
+    color: black;
+}
+
+
+[data-md-color-scheme="futurist-dark2"] {
+  --md-primary-fg-color:        #00008b; /* nav color */
+  --md-primary-bg-color:        #FFF; /* nav font color */
+  --md-default-bg-color:        #000051;
+  --md-default-fg-color--light: white;
+  --md-primary-fg-color--light: #000051;
+  --md-primary-fg-color--dark:  white;
+  --md-typeset-color: white;
+  --md-text-font-family: "monospace";
+}

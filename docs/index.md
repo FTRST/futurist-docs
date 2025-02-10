@@ -16,9 +16,9 @@ Thanks for visiting [futurist](https://futurist.io), a concept framework for cre
 ***
 ## About the Framework
 ***
-Our [Framework Summary](framework/architecture) talks to the structure of the project and its core components.
+Our [Framework Summary](framework/architecture.md) talks to the structure of the project and its core components.
 
-One of the core components, [Applications](framework/applications.md), can be best understood by reading our [Application Walkthrough](framework/app_walkthrough).
+One of the core components, Applications, can be best understood by reading our [Application Walkthrough](framework/app_walkthrough.md).
 
 There's a [component library](components/basewindow.md) to make building even easier.
 
@@ -27,7 +27,7 @@ There's a [component library](components/basewindow.md) to make building even ea
 ***
 Like the [futurist](https://futurist.io) site and want to make your own? You can!
 
-[Follow this guide](install_guide.md) - it should be quick and painless!
+[Follow this guide](setup_guide/quick_start.md) - it should be quick and painless!
 
 ***
 ## Contributing
@@ -37,6 +37,6 @@ Want to add to our documentation - [make a pull request](https://github.com/ftrs
 Interested in extending the project? Here's how you can:
 
 * [GitHub](https://github.com/ftrst/futurist-core): There's plenty of enhancements to make, let's make this awesome together!
-* [Create Applications](apps/index.md): Between examples and our component library, making your own projects should be quick and painless!
+* [Create Applications](framework/app_walkthrough.md): Between examples and our component library, making your own projects should be quick and painless!
 
 Ready to dig into the project? [Click here](project_background) to get started!

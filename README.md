@@ -12,6 +12,8 @@
 
 ✴️ Some items may not be up-to-date. A clone of the live site is available on GitHub.
 
+✴️ The project is being re-written in Rust, this documentation reflects the React version.
+
 ***
 ## About the Framework
 ***

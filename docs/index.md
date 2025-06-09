@@ -1,4 +1,4 @@
-# Welcome to Futurist
+# Futurist Docs (For React)
 
 Thanks for visiting [futurist](https://futurist.io), a concept framework for creating desktop-like UI experiences in the browser.
 
@@ -13,6 +13,16 @@ Thanks for visiting [futurist](https://futurist.io), a concept framework for cre
 
     Some items may not be up-to-date. A clone of the live site is available on GitHub.
 
+***
+## Migration to Rust
+***
+This documentation covers the core concepts of which the React framework version was released.
+
+However, this project is being re-written in Rust to handle issues specifically related to concurrency.
+
+The Rust architecture is expected to be similar to the React implementation, albeit with a higher ceiling for scalability, reliance, and speed.
+
+The React version of the framework is still well-suited for a variety of applications. Feel free to read on and try it out!
 ***
 ## About the Framework
 ***

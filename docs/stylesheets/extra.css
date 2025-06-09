@@ -28,7 +28,7 @@ li {
   --md-default-fg-color--light: #a30b37;
   --md-primary-fg-color--light: black;
   --md-primary-fg-color--dark:  #90030C;
-  --md-text-font-family: "monospace";
+  --md-text-font-family: monospace;
 }
 
 [data-md-color-scheme="futurist-light"] h2 {
@@ -61,7 +61,7 @@ li {
   --md-default-fg-color--lightest: #000;
   --md-primary-fg-color--dark:  white;
   --md-typeset-color: white;
-  --md-text-font-family: "monospace";
+  --md-text-font-family: monospace;
   --md-typeset-a-color: #6bf178; /* link color */
   --md-shadow-z3: .15rem 0.15rem #E2E;
   --md-code-fg-color: yellow;

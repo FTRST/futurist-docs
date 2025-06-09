@@ -14,7 +14,7 @@ Applications are installed like any other npm package:
 
 For example, to install ```Quantum Coin Flip```:
 
-```npm install quantum-coin-flip```
+```npm install ftrst-quantum-flip```
 
 ***
 ### 2) Import the Application
@@ -39,12 +39,14 @@ const shortcuts = [
       title: "Quantum Coin Flip",
       width: "300px",
       height: "300px",
+      XCoord: 10,
+      YCoord: 10
     },
   },
 ];
 ```
 
-To update this with ```quantum-coin-flip```, the final version would look like:
+To update this with ```ftrst-quantum-flip```, the final version would look like:
 
 ```
 const shortcuts = [
@@ -57,6 +59,8 @@ const shortcuts = [
       title: "Quantum Coin Flip",
       width: "300px",
       height: "300px",
+      xCoord: 10,
+      yCoord: 10
     },
   },
 ];
@@ -73,4 +77,4 @@ There are two standards in place to know if an Application requires its own stat
 * Check the Readme: Any requirements for states should be included within the project Readme. 
 * Check the States folder: Even if not directly notated, Applications should contain the required states via the ```States``` folder.
 
-The ```quantum-coin-flip``` example does not require a separate state.
+The ```ftrst-quantum-flip``` example does not require a separate state.

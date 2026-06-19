@@ -30,17 +30,7 @@ Many of the original Apps were purpose-built, with one of the author's favorites
 ## Setting Up the Application
 ***
 
-Let's work with ```quantum-coin-flip```. To do this, run the following command:
-
-```git clone https://github.com/ftrst/quantum-coin-flip```
-
-Next, we'll enter the directory and install the dependencies:
-
-```cd quantum-coin-flip && npm install```
-
-Once installed, we can run the project:
-
-```npm dev```
+Let's work with ```quantum-coin-flip```.
 
 This will bring you to a black screen with a single icon:
 
@@ -73,7 +63,7 @@ Quantum-Coin-Flip
 ------ deviceDetailState.js
 ```
 
-Each Application is a self-contained project, which is why it can run without being connected to [futurist-core](/core.md).
+Each Application is a self-contained project that imports components from `futurist-components`.
 
 The files to make this happen are:
 
@@ -120,11 +110,8 @@ It looks like this:
 import { useState } from 'react'
 import './App.css'
 import QuantumCoinFlip from './components/QuantumCoinFlip'
-import {ShortcutContainer} from 'futurist-components';
-
-import { useAtom, useSetAtom } from 'jotai';
-import { useDeviceDetail } from './states/deviceDetail';
-import { windowManipulatorAtom } from './states/deviceDetailState';
+import { ShortcutContainer, useDeviceDetail, windowManipulatorAtom } from 'futurist-components';
+import { useSetAtom } from 'jotai';
 
 function App() {
 
@@ -231,9 +218,7 @@ import {
     BaseWindow,
     TabContainer,
     Button,
-    WindowInset,
-    WindowInner,
-    WindowSpacing,
+    WindowContent,
     WindowTitle
 } from 'futurist-components';
 
@@ -293,9 +278,7 @@ const CreatorTab = ({ quantumCollect, selectedValue, flipAgain }) => {
       {selectedValue ? (
         <>
           <Button action={flipAgain} label="Flip Again" />
-          <WindowInset>
-            <WindowSpacing>
-              <WindowInner>
+          <WindowContent>
                 <>
                   <div>
                     {selectedValue !== "" && (
@@ -303,15 +286,11 @@ const CreatorTab = ({ quantumCollect, selectedValue, flipAgain }) => {
                     )}
                   </div>
                 </>
-              </WindowInner>
-            </WindowSpacing>
-          </WindowInset>
+              </WindowContent>
         </>
       ) : (
         <>
-          <WindowInset>
-            <WindowSpacing>
-              <WindowInner>
+          <WindowContent>
                 <WindowTitle value="Flip to Decide"></WindowTitle>
                 {!selectedValue && (
                   <>
@@ -331,9 +310,7 @@ const CreatorTab = ({ quantumCollect, selectedValue, flipAgain }) => {
                     </div>
                   </>
                 )}
-              </WindowInner>
-            </WindowSpacing>
-          </WindowInset>
+              </WindowContent>
           <Button
             label="Flip A Coin"
             action={quantumCollect}
@@ -374,29 +351,23 @@ But first, the code:
 ```
 const DetailsTab = () => (
     <>
-        <WindowInset>
-            <WindowSpacing>
-                <WindowInner>
-                    <WindowTitle value="Why Use Quantum?"></WindowTitle>
-                    <div style={{maxHeight: "20em", overflowY: "scroll"}}>
-                        <p>Did you know the weight distribution of a US quarter favors the saying "tails never fails"?</p>
-                        <a href="https://www.ripleys.com/weird-news/coin-toss-or-not/"><p>Or how physicists have trained themselves to consistently flip the same result 10 times in a row?</p></a>
-                        <p>In the case of asking the universe for a recommendation, randomness is key, and neither of those seem very random.</p>
-                        <p>QCF is an app which creates a binary output (heads or tails) based on the sum of numbers.</p>
-                        <p>The numbers are generated through a theoretical concept of quantum physics, rather than a typical Quantum Random Number Generator.</p>
-                    </div>
-                </WindowInner>
-            </WindowSpacing>
-        </WindowInset>
+        <WindowContent>
+            <WindowTitle value="Why Use Quantum?"></WindowTitle>
+            <div style={{maxHeight: "20em", overflowY: "scroll"}}>
+                <p>Did you know the weight distribution of a US quarter favors the saying "tails never fails"?</p>
+                <a href="https://www.ripleys.com/weird-news/coin-toss-or-not/"><p>Or how physicists have trained themselves to consistently flip the same result 10 times in a row?</p></a>
+                <p>In the case of asking the universe for a recommendation, randomness is key, and neither of those seem very random.</p>
+                <p>QCF is an app which creates a binary output (heads or tails) based on the sum of numbers.</p>
+                <p>The numbers are generated through a theoretical concept of quantum physics, rather than a typical Quantum Random Number Generator.</p>
+            </div>
+        </WindowContent>
     </>
 );
 ```
 
 Here's an overview of the components:
 
-* [WindowInset](../components/windowinner.md)
-* [WindowSpacing](../components/windowspacing.md)
-* [WindowInner](../components/windowinner.md)
+* [WindowContent](../components/windowcontent.md)
 * [WindowTitle](../components/windowtitle.md)
 
 The last bit is a standard div.

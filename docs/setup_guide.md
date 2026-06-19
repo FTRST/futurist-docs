@@ -1,129 +1,119 @@
-***
-## Before Getting Started
-***
-This guide provides the raw, copy / paste commands to get an environment set up and looking like [futurist.io](https://futurist.io).
+# Setup Guide
 
-For better understanding on the project, please (at least) read:
+This section covers how to install and configure **futurist-components** in your project.
 
-* [Framework Summary](framework/architecture) - To understand the roles of each of the parts being set up.
-* [Application Walkthrough](framework/app_walkthrough) - For an in-depth walkthrough of an Application, how it works, etc.
+---
 
+## Before Starting
 
-***
+Get familiar with the project:
+
+- [Architecture](../framework/architecture.md) — understand the theming system, state management, and window system
+- [Component Overview](../components/overview.md) — see what's available
+- [App Walkthrough](../framework/app_walkthrough.md) — walk through building an application
+
+---
+
 ## Prerequisites
-***
-No specific OS is required, but be sure to have a typical setup for React projects:
 
-* ```Node.js 18+```, which you can download here.
-* Slight familiarity with a package manager, such as **npm** or **yarn**.
-* Ability to copy code someone else wrote for you.
-* An internet connection (to download necessary packages, etc)
+- Node.js 18+
+- Familiarity with a package manager like **npm** or **yarn**
+- A React project (created via Vite, CRA, Next.js, etc.)
 
-***
+---
+
+## Install
+
+```bash
+yarn add futurist-components
+```
+
+Or with npm:
+
+```bash
+npm install futurist-components
+```
+
+---
+
 ## Basic Setup
-***
-The architecture for Futurist is split into three parts: Core, Sidebar, and Applications.
 
-**Core** is the only required package required.
+1. Wrap your app with `<ThemeProvider>`
+2. Use `useDeviceDetail()` to get device/window state
+3. Use `useSetAtom(windowManipulatorAtom)` to control windows
+4. Render `<BaseWindow>` components with your content
 
-In addition to the desktop interface, it includes a sampling setup of all extensions, such as:
+```jsx
+import { ThemeProvider, useDeviceDetail, useSetAtom, windowManipulatorAtom } from 'futurist-components';
+import { Desktop } from './Desktop';
 
-* The device state
-* A start Application
+function App() {
+  const device = useDeviceDetail();
+  const manipulateWindows = useSetAtom(windowManipulatorAtom);
 
-Clone the GitHub repo:
-
-```git clone https://github.com/ftrst/futurist-core.git && cd futurist-core```
-
-Now, install the packages. To do so, use one of the following:
-
-Using **npm**
-
-```npm install```
-
-Or using **yarn**
-
-```yarn add```
-
-To run the project, simply use:
-
-```npm start```
-
-Or using yarn:
-
-```yarn dev```
-
-***
-## Adding Applications
-***
-To add in another Application, such as the ones from the [Examples](development/example_apps), there's a few easy steps required.
-
-***
-### 1) Install the Package
-***
-Applications are installed like any other npm package:
-
-```npm install <application_name>```
-
-For example, to install ```Quantum Coin Flip```:
-
-```npm install quantum-coin-flip```
-
-***
-### 2) Import the Application
-***
-
-***
-### 3) Update the Shortcut Container
-***
-Once the Application is installed, manually update the ```shortcuts``` array.
-
-This is then packed into the [ShortcutContainer](components/shortcutcontainer.md) to display [Shorcuts](components/shortcut.md), or icons.
-
-The one included by default within the [futurist-core](framework/core.md) looks like this:
-```
-const shortcuts = [
-  {
-    icon: "./icons/qcf.png",
-    title: "Quantum Coin Flip",
-    id: "qcf",
-    windowData: {
-      id: "qcf",
-      title: "Quantum Coin Flip",
-      width: "300px",
-      height: "300px",
-    },
-  },
-];
+  return (
+    <ThemeProvider>
+      <Desktop device={device} manipulateWindows={manipulateWindows} />
+    </ThemeProvider>
+  );
+}
 ```
 
-To update this with ```quantum-coin-flip```, the final version would look like:
+---
 
+## Adding Windows
+
+Windows are managed through the `device.windows[]` state. Use the utility functions:
+
+```js
+import { openWindow, closeWindow, bringToFront, resizeWindow } from 'futurist-components';
+
+// Open a new window
+openWindow(manipulateWindows, {
+  id: 'calculator',
+  title: 'Calculator',
+  width: 400,
+  height: 500,
+});
+
+// Close
+closeWindow(manipulateWindows, 'calculator');
+
+// Bring to front
+bringToFront(manipulateWindows, 'calculator');
+
+// Resize / maximize
+resizeWindow(manipulateWindows, 'calculator', {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  maximize: true,
+  prevWidth: 400,
+  prevHeight: 500,
+});
 ```
-const shortcuts = [
-  {
-    icon: "./icons/qcf.png",
-    title: "Quantum Coin Flip",
-    id: "qcf",
-    windowData: {
-      id: "qcf",
-      title: "Quantum Coin Flip",
-      width: "300px",
-      height: "300px",
-    },
-  },
-];
+
+---
+
+## Theming
+
+Switch themes on the fly:
+
+```jsx
+import { useUpdateTheme, themes } from 'futurist-components';
+
+function ThemeSwitcher() {
+  const update = useUpdateTheme();
+  return (
+    <div>
+      <button onClick={() => update(themes.modern)}>Modern</button>
+      <button onClick={() => update(themes.light)}>Light</button>
+      <button onClick={() => update(themes.retro)}>Retro</button>
+      <button onClick={() => update(themes.warm)}>Warm</button>
+    </div>
+  );
+}
 ```
-***
-### 4) Create the Application State (optional)
-***
-Applications refer to the [deviceDetail](framework/standard_states) state for functionality and bounds updating.
 
-However, some Applications also require their own state in order to function.
+## Full Project Example
 
-There are two standards in place to know if an Application requires its own state:
-
-* Check the Readme: Any requirements for states should be included within the project Readme. 
-* Check the States folder: Even if not directly notated, Applications should contain the required states via the ```States``` folder.
-
-The ```quantum-coin-flip``` example does not require a separate state.
+For a complete working project, check the [Example Apps](../development/example_apps.md) section.

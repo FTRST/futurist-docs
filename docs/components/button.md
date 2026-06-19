@@ -1,31 +1,19 @@
 # Button
-This section covers the **Button** component, its use, capabilities, and style variations.
 
-***
+This section covers the **Button** component, its use, style variants, and theming.
+
+---
+
 ## Purpose
-***
-```Button``` is an actionable interaction for users, just like your standard HTML button.
 
-The Button component receives and acts upon a function, defined as an action, and references a set of values.
+Button is an actionable interaction for users, just like a standard HTML `<button>`, but themed via the `styleSettings` system with three built-in visual variants.
 
-***
+---
+
 ## Usage
-***
-Button expects the following to be passed as parameters:
 
-* **label**: The text label for the button.
-* **action**: The onClick for the button.
-* **value**: The value to be referenced within the onClick.
-
-Reference the **Core Example** to see basic usage.
-
-This will create a button, a function on which it interacts, and a value which it uses in the function.
-
-***
-## Core Example
-***
-```
-import Button from "futurist-components";
+```jsx
+import { Button } from 'futurist-components';
 
 function App() {
   let count = 0;
@@ -34,34 +22,64 @@ function App() {
   }
   return (
     <>
-      <Button label="click me" action={increaseCount} value={1} />
-      <br />
-      <span>The count is: {count}</span>
+      <Button label="Click me" action={() => increaseCount(1)} variant="primary" />
+      <span>Count: {count}</span>
     </>
   );
 }
 ```
 
-***
-## Advanced Usage
-***
-```Button``` includes additional parameters for theme variations and alternately accessible parameters from the button.
+---
 
-***
-## Optional Styles
-***
-By passing the **variant** parameter, styling can change.
+## Props
 
-There are two variations:
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | string | — | Text displayed on the button |
+| `action` | function | — | `onClick` handler |
+| `variant` | `'default'` \| `'primary'` \| `'ghost'` | `'default'` | Visual style variant |
+| `disabled` | boolean | `false` | Disables the button (0.4 opacity, no cursor) |
+| `type` | string | — | HTML `type` attribute (e.g. `'submit'`) |
+| `style` | object | — | Additional CSS styles |
+| `styleSettings` | object | context → defaults | Override theme for this button |
 
-* **default**: Automatically referenced.
-* **inverted**: A separate theme styling.
+---
 
-An example of usage would be similar to the **Core Example** but with the extra parameter passed:
+## Variants
 
+| Variant | Text Color | Background | Border |
+|---------|-----------|------------|--------|
+| `default` | `button.primaryText` | `button.primaryBg` | `window.borderColor` |
+| `primary` | `button.primaryBg` | `button.primaryText` | `button.primaryText` |
+| `ghost` | `titleBar.textColor` | transparent | transparent (shows bg on hover) |
+
+```jsx
+<Button label="Default" action={handleClick} />
+<Button label="Primary" action={handleClick} variant="primary" />
+<Button label="Ghost" action={handleClick} variant="ghost" />
 ```
-<Button label="click me" action={increaseCount} value={1} variant="inverted" />
+
+---
+
+## Theming
+
+Button reads these keys from `styleSettings`:
+
+| Key | Fallback | Used For |
+|-----|----------|----------|
+| `button.primaryText` | `#cdd6f4` | Default text, primary background |
+| `button.primaryBg` | `#45475a` | Default background, primary text |
+| `window.borderColor` | `#89b4fa` | Default variant border |
+| `titleBar.textColor` | `#cdd6f4` | Ghost variant text |
+
+Override per-instance:
+
+```jsx
+<Button
+  label="Custom"
+  action={handleClick}
+  styleSettings={{
+    button: { primaryBg: '#a6e3a1', primaryText: '#1e1e2e' }
+  }}
+/>
 ```
-***
-## Optional Parameters
-***

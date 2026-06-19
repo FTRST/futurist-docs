@@ -1,77 +1,84 @@
 # ShortcutContainer
-This section covers the **ShortcutContainer** component, its use, and capabilities.
 
-***
+This section covers the **ShortcutContainer** component — renders an array of desktop shortcut icons.
+
+---
+
 ## Purpose
-***
-ShortcutContainer accepts an array of objects.
 
-The objects include the same data required to create [Shortcuts](shortcut.md).
+ShortcutContainer accepts an array of shortcut objects and renders them as draggable/clickable icons on the desktop. Clicking a shortcut opens the associated window in the device state.
 
-***
-## Code Example
-***
+---
 
-Below, you can see the shortcuts array and how to use the ShortcutContainer:
+## Props
 
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `device` | object | yes | Device state from `useDeviceDetail()` |
+| `shortcuts` | array | yes | Array of shortcut objects (see shape below) |
+| `manipulateWindows` | function | yes | State setter from `useSetAtom(windowManipulatorAtom)` |
+
+---
+
+## Shortcut Object Shape
+
+Each entry in the `shortcuts` array:
+
+```js
+{
+  icon: string,       // URL to shortcut icon image
+  title: string,      // Display name (passed as `name` to Shortcut component)
+  id: string,         // Unique identifier for this shortcut
+  windowData: {       // Data passed to BaseWindow when opened
+    id: string,       // Window id (matches the shortcut id)
+    title: string,    // Window title
+    width: string,    // Starting width (e.g. '300px')
+    height: string,   // Starting height (e.g. '300px')
+  }
+}
 ```
-import { useAtom, useSetAtom } from "jotai";
-import { useDeviceDetail } from "./states/deviceDetail";
-import { windowManipulatorAtom } from "./states/deviceDetailState";
 
-import ShortcutContainer from "futurist-components";
+---
 
-function App() {
+## Usage
+
+```jsx
+import { useSetAtom } from 'jotai';
+import { ShortcutContainer, useDeviceDetail, windowManipulatorAtom } from 'futurist-components';
+
+function Desktop() {
   const device = useDeviceDetail();
   const manipulateWindows = useSetAtom(windowManipulatorAtom);
 
   const shortcuts = [
     {
-      icon: "./icons/qcf.png",
-      title: "Quantum Coin Flip",
-      id: "qcf",
+      icon: 'https://futurist.io/icons/folder.png',
+      title: 'My App',
+      id: 'my-app',
       windowData: {
-        id: "qcf",
-        title: "Quantum Coin Flip",
-        width: "300px",
-        height: "300px",
-      },
-    },
-    {
-      icon: "./icons/web-shortcut.png",
-      title: "NetXplorer",
-      id: "nxp",
-      windowData: {
-        id: "nxp",
-        title: "NetXplorer",
-        width: "300px",
-        height: "300px",
-      },
-    },
-    {
-      icon: "./icons/web-shortcut.png",
-      title: "HConnector",
-      id: "scf",
-      windowData: {
-        id: "scf",
-        title: "HConnector",
-        width: "300px",
-        height: "300px",
+        id: 'my-app',
+        title: 'My App',
+        width: '400px',
+        height: '300px',
       },
     },
   ];
 
   return (
-    <>
-      <ShortcutContainer
-        device={device}
-        shortcuts={shortcuts}
-        manipulateWindows={manipulateWindows}
-      />
-    </>
+    <ShortcutContainer
+      device={device}
+      shortcuts={shortcuts}
+      manipulateWindows={manipulateWindows}
+    />
   );
 }
 ```
 
-## Usage
-BaseWindow expects the following to be passed as parameters:
+---
+
+## Behavior
+
+- Each shortcut is rendered via the **Shortcut** component
+- Clicking/tapping a shortcut opens the window by adding its `windowData` to `device.windows[]`
+- Only one instance of a window can be open — clicking again does not create a duplicate
+- Shortcuts are draggable on desktop, with drag-to-click detection on mobile

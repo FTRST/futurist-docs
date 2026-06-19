@@ -1,52 +1,70 @@
-# Futurist Docs (For React)
+# Futurist Components (React)
 
-Thanks for visiting [futurist](https://futurist.io), a concept framework for creating desktop-like UI experiences in the browser.
+[**futurist-components**](https://github.com/xtrem3/futurist-components) is a React UI kit that provides desktop-like windowing experiences in the browser — draggable, resizable windows, desktop shortcuts, theme-driven styling, and a full library of form controls, charts, and display components.
 
-<figure markdown="span">
-  ![Futurist desktop example](../images/futurist-desktop-example.png)
-  <figcaption>Futurist example desktop</figcaption>
-</figure>
+![Futurist desktop example](../images/futurist-desktop-example.png)
 
-!!! note "Before Starting.."
-    
-    This documentation (and futurist as a whole) is still in beta.
+> **Note:** This documentation is still in development. Some items may not be fully up-to-date.
 
-    Some items may not be up-to-date. A clone of the live site is available on GitHub.
+---
 
-***
-## Migration to Rust
-***
-This documentation covers the core concepts of which the React framework version was released.
+## What's Included
 
-However, this project is being re-written in Rust to handle issues specifically related to concurrency.
+- **Window System** — draggable, resizable BaseWindow with TitleBar, maximize/minimize/close
+- **Theme Provider** — context-based theming via `ThemeProvider` with 4 built-in presets
+- **Form Controls** — Button, Input, Select, Textarea, Checkbox, Toggle, Radio, Slider
+- **Display & Feedback** — Badge, Alert, Spinner, ProgressBar, Divider, Toast, Modal, Card
+- **Charts** — AreaChart, BarChart, LineChart, HeatmapChart, Sparkline
+- **Desktop Patterns** — ShortcutContainer, TabContainer, DevPlayground
+- **State Management** — Jotai atoms for device dimensions, window manipulation, and theming
 
-The Rust architecture is expected to be similar to the React implementation, albeit with a higher ceiling for scalability, reliance, and speed.
+---
 
-The React version of the framework is still well-suited for a variety of applications. Feel free to read on and try it out!
-***
-## About the Framework
-***
-Our [Framework Summary](framework/architecture.md) talks to the structure of the project and its core components.
+## Quick Start
 
-One of the core components, Applications, can be best understood by reading our [Application Walkthrough](framework/app_walkthrough.md).
+```bash
+yarn add futurist-components
+```
 
-There's a [component library](components/basewindow.md) to make building even easier.
+Wrap your app with ThemeProvider, then use any component:
 
-***
-## Install Guide
-***
-Like the [futurist](https://futurist.io) site and want to make your own? You can!
+```jsx
+import { ThemeProvider, BaseWindow, Button } from 'futurist-components';
+import { useDeviceDetail, useSetAtom, windowManipulatorAtom } from 'futurist-components';
 
-[Follow this guide](setup_guide/quick_start.md) - it should be quick and painless!
+function App() {
+  const device = useDeviceDetail();
+  const manipulateWindows = useSetAtom(windowManipulatorAtom);
 
-***
+  return (
+    <ThemeProvider>
+      <BaseWindow
+        id="my-app"
+        device={device}
+        manipulateWindows={manipulateWindows}
+      >
+        <Button label="Hello" action={() => alert('Hi!')} variant="primary" />
+      </BaseWindow>
+    </ThemeProvider>
+  );
+}
+```
+
+---
+
+## Component Library
+
+Browse the [Component Overview](components/overview.md) for a full list of exports.
+
+---
+
+## Theming
+
+All components inherit style from the nearest `ThemeProvider`. Pass `styleSettings` on individual components to override locally. Read more about [Theming](components/themeprovider.md).
+
+---
+
 ## Contributing
-***
-Want to add to our documentation - [make a pull request](https://github.com/ftrst/futurist-docs)!
 
-Interested in extending the project? Here's how you can:
-
-* [GitHub](https://github.com/ftrst/futurist-core): There's plenty of enhancements to make, let's make this awesome together!
-* [Create Applications](framework/app_walkthrough.md): Between examples and our component library, making your own projects should be quick and painless!
-
-Ready to dig into the project? [Click here](project_background) to get started!
+- [GitHub](https://github.com/xtrem3/futurist-components) — issues, PRs, discussions
+- Check the [Development Quick Start](development/quick_start.md) for local setup

@@ -15,9 +15,9 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
   features:
     - search.suggest
+    - content.tabs.link
 
 extra_css:
   - stylesheets/extra.css
@@ -41,20 +41,22 @@ nav:
   - Development:
     - Quick Start: development/quick_start.md
     - Example Apps: development/example_apps.md
-    - Component Overview: components/overview.md
-    - Component Library:
-        - BaseWindow: components/basewindow.md
-        - Button: components/button.md
-        - Input: components/input.md
-        - Shortcut: components/shortcut.md
-        - ShortcutContainer: components/shortcutcontainer.md
-        - Tab: components/tab.md
-        - TabContainer: components/tabcontainer.md
-        - TitleBar: components/titlebar.md
-        - WindowInner: components/windowinner.md
-        - WindowInset: components/windowinset.md
-        - WindowSpacing: components/windowspacing.md
-        - WindowTitle: components/windowtitle.md
+  - Components:
+    - Overview: components/overview.md
+    - ThemeProvider: components/themeprovider.md
+    - BaseWindow: components/basewindow.md
+    - WindowContent: components/windowcontent.md
+    - TitleBar: components/titlebar.md
+    - WindowTitle: components/windowtitle.md
+    - Button: components/button.md
+    - Input: components/input.md
+    - Shortcut: components/shortcut.md
+    - ShortcutContainer: components/shortcutcontainer.md
+    - Tab: components/tab.md
+    - TabContainer: components/tabcontainer.md
+    - WindowInset (deprecated): components/windowinset.md
+    - WindowSpacing (deprecated): components/windowspacing.md
+    - WindowInner (deprecated): components/windowinner.md
 
 markdown_extensions:
   - attr_list
@@ -63,3 +65,5 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

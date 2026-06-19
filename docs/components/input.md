@@ -1,45 +1,69 @@
 # Input
-This section covers the **Input** component, its use, capabilities, and style variations.
 
-***
+This section covers the **Input** component — a styled text input field with theme support.
+
+---
+
 ## Purpose
-***
-```Input``` is a field for users to type in, just like your standard HTML input.
 
-The Input component takes a function to update a value (either directly or within a state), and uses a standard onChange to modify it.
+Input is a themed replacement for the standard HTML `<input>`. It inherits text color, background, and border from the current theme, with focus highlighting and placeholder styling.
 
-***
+---
+
 ## Usage
-***
-Input expects the following to be passed as parameters:
 
-* **action**: The function used to update the value
-* **value**: A reference for the current value of the Input
-
-Since Inputs are used to update values, a function must be passed along with a value reference.
-
-***
-## Core Example
-***
-```
-import Input from "futurist-components";
+```jsx
+import { Input } from 'futurist-components';
 
 function App() {
-  let mystring = "";
-  function updateString(value) {
-    mystring = value;
-  }
+  const [value, setValue] = React.useState('');
+
   return (
-    <>
-      <Input action={updateString} value={mystring} />
-    </>
+    <Input
+      value={value}
+      action={(e) => setValue(e.target.value)}
+      placeholder="Type something..."
+    />
   );
 }
 ```
 
-***
-## Optional Parameters
-***
-Inputs also can accept the following optional paramters:
+---
 
-* **placeholder**: An example value for user to reference
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | string | — | Current input value |
+| `action` | function | — | `onChange` handler (receives the event) |
+| `placeholder` | string | — | Placeholder text (0.4 opacity styled) |
+| `type` | string | `'text'` | HTML input type (e.g. `'password'`, `'email'`) |
+| `name` | string | — | HTML `name` attribute |
+| `variant` | string | `'default'` | Reserved for future use |
+| `style` | object | — | Additional CSS styles |
+| `styleSettings` | object | context → defaults | Override theme for this input |
+
+---
+
+## Theming
+
+Input reads these keys from `styleSettings`:
+
+| Key | Fallback | Effect |
+|-----|----------|--------|
+| `titleBar.textColor` | `#cdd6f4` | Text + focus border color |
+| `button.primaryBg` | `#45475a` | Input background |
+| `window.borderColor` | `#89b4fa` | Default border color |
+
+On focus, the border transitions to `titleBar.textColor`. Placeholder text has 0.4 opacity.
+
+```jsx
+<Input
+  value={value}
+  action={handleChange}
+  styleSettings={{
+    window: { borderColor: '#cba6f7' },
+    titleBar: { textColor: '#cba6f7' }
+  }}
+/>
+```

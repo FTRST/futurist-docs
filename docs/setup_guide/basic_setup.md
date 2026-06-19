@@ -1,55 +1,100 @@
 # Basic Setup
-This covers walks through our pre-built template to setup a basic environment.
 
-Additionally, included are ways to customize it for your own experience.
+This covers setting up a project using **futurist-components** from scratch.
 
-***
+---
+
 ## Prerequisites
-***
-No specific OS is required, but be sure to have a typical setup for React projects:
 
-* ```Node.js 18+```, which you can download here.
-* Familiarity with a package manager, such as **npm** or **yarn**.
+- Node.js 18+
+- Familiarity with a package manager (npm or yarn)
 
-***
-## About the Template
-***
-Per the [Architecture](../framework/architecture.md), futurist is broken out into three main parts, [Core](https://github.com/ftrst/futurist-core), [Sidebar](https://github.com/ftrst/futurist-sidebar), and [Applications](../development/example_apps.md).
+---
 
-This template uses Core and Sidebar as dependencies, using the latest version available.
+## Create a New Project
 
-It's meant to be ready to use, out-of-the-box, but you can easily fork either of those repos and use it as a dependency instead of the default.
+```bash
+# Using Vite (recommended)
+npm create vite@latest my-desktop-app -- --template react
+cd my-desktop-app
+```
 
-***
-## What to Expect
-***
-This guide references [futurist-react](https://github.com/ftrst/futurist-react).
+---
 
-The expected outcome of getting this project setup is:
+## Install futurist-components
 
-* The desktop experience seen on [futurist.io](https://futurist.io)
-* A sample [device state](../framework/standard_states)
-* A basic [Application](../framework/app_walkthrough.md)
+```bash
+yarn add futurist-components
+# or
+npm install futurist-components
+```
 
-Within our docs, there should be enough information to cover ways to create a bespoke experience.
+---
 
-However, if there are questions, please ask on the [template GitHub](https://github.com/ftrst/futurist-react)!
+## Set Up Your App
 
-***
-## Using the Template
-***
+Create a minimal setup in `src/App.jsx`:
 
-Clone the GitHub repo:
+```jsx
+import { ThemeProvider, useDeviceDetail, useSetAtom, windowManipulatorAtom } from 'futurist-components';
 
-```git clone https://github.com/ftrst/futurist-react.git && cd futurist-react```
+function App() {
+  const device = useDeviceDetail();
+  const manipulateWindows = useSetAtom(windowManipulatorAtom);
 
-Now, install the packages. To do so, use one of the following:
+  const shortcuts = [
+    {
+      icon: 'src/icons/app-icon.png',
+      title: 'My App',
+      id: 'my-app',
+      windowData: {
+        id: 'my-app',
+        title: 'My App',
+        width: '500px',
+        height: '400px',
+      },
+    },
+  ];
 
-|             | npm         | yarn       |
-|-------------|-------------|------------|
-| to install: | npm install | yarn add   |
-| to start:   | npm start   | yarn start |
+  return (
+    <ThemeProvider>
+      <ShortcutContainer
+        device={device}
+        shortcuts={shortcuts}
+        manipulateWindows={manipulateWindows}
+      />
+      <BaseWindow
+        id="my-app"
+        device={device}
+        manipulateWindows={manipulateWindows}
+      >
+        <p>Your application content.</p>
+      </BaseWindow>
+    </ThemeProvider>
+  );
+}
+```
 
-Now, navigate to [http://localhost:3000](http://localhost:3000) if it didn't open automatically.
+Add the necessary imports:
 
-To add more Applications, check out our guide for [adding Applications](adding_applications.md).
+```jsx
+import { ShortcutContainer, BaseWindow } from 'futurist-components';
+```
+
+---
+
+## Run the Dev Server
+
+```bash
+yarn dev
+# or
+npm run dev
+```
+
+Navigate to [http://localhost:5173](http://localhost:5173).
+
+---
+
+## Adding More Applications
+
+See [Adding Applications](adding_applications.md) for details on integrating additional apps.

@@ -1,134 +1,232 @@
-/*
-- Keep sidebar functionality
-- Custom list item elsewhere
-*/
+/* =======================================
+   Futurist Docs — Modern, Accessible Theme
+   ======================================= */
+
+/* --- System font stack (works on every browser) --- */
+:root {
+  --ftrst-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+  --ftrst-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace;
+  --ftrst-accent: #89b4fa;
+  --ftrst-text: #cdd6f4;
+  --ftrst-bg: #1e1e2e;
+  --ftrst-surface: #181825;
+  --ftrst-overlay: #313244;
+  --ftrst-subtext: #a6adc8;
+  --ftrst-green: #a6e3a1;
+  --ftrst-yellow: #f9e2af;
+  --ftrst-red: #f38ba8;
+}
+
+/* --- Sidebar --- */
 li.md-nav__item {
-    position: static;
+  position: static;
 }
 
 li {
-    position: relative;
-    list-style: none;
+  position: relative;
+  list-style: none;
 }
 
 .md-nav--primary .md-nav__title {
-    height: 3em;
-    padding: 0;
-    text-align: center;
+  height: 3em;
+  padding: 0;
+  text-align: center;
 }
 
 .md-nav--primary .md-nav__title .md-logo {
-    display: none;
+  display: none;
 }
 
+/* --- Light Scheme --- */
 [data-md-color-scheme="futurist-light"] {
-  --md-primary-fg-color:        #AEB4A9; /* */
-  --md-primary-bg-color:        black; /* nav font color */
-  --md-default-bg-color:        #FFF;
-  --md-default-fg-color--light: #a30b37;
-  --md-primary-fg-color--light: black;
-  --md-primary-fg-color--dark:  #90030C;
-  --md-text-font-family: monospace;
+  --md-primary-fg-color: #313244;
+  --md-primary-bg-color: #cdd6f4;
+  --md-default-bg-color: #ffffff;
+  --md-default-fg-color: #4c4f69;
+  --md-default-fg-color--light: #5c5f77;
+  --md-primary-fg-color--light: #7287fd;
+  --md-primary-fg-color--dark: #1e1e2e;
+  --md-typeset-color: #4c4f69;
+  --md-typeset-a-color: #1e66f5;
+  --md-text-font-family: var(--ftrst-font);
+  --md-code-font-family: var(--ftrst-mono);
+}
+
+[data-md-color-scheme="futurist-light"] h1 {
+  color: #1e1e2e;
+  font-weight: 600;
 }
 
 [data-md-color-scheme="futurist-light"] h2 {
-    color: #a30b37;
-    margin: 0;
-    text-align: center;
+  color: #1e66f5;
+  margin: 1.5em 0 0.75em;
+  font-weight: 600;
+}
+
+[data-md-color-scheme="futurist-light"] h3 {
+  color: #313244;
+  margin: 1.25em 0 0.5em;
+  font-weight: 600;
 }
 
 [data-md-color-scheme="futurist-light"] hr {
-    height: 0;
-    border: .15em black dashed;
-    margin: 0;
+  height: 1px;
+  border: none;
+  background: #dce0e8;
+  margin: 2em 0;
 }
 
-[data-md-color-scheme="futurist-light"] li:before {
-    content: "*";
-    position: absolute;
-    left: -.75em;
-    margin: auto;
-    color: #a30b37;
-    font-size: 1.25em;
+[data-md-color-scheme="futurist-light"] code {
+  background-color: #e6e9ef;
+  color: #e64553;
+  font-size: 0.85em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
 }
 
+[data-md-color-scheme="futurist-light"] pre code {
+  background: #f5f5f5;
+  color: #4c4f69;
+}
+
+[data-md-color-scheme="futurist-light"] .md-typeset {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* --- Dark Scheme (Catppuccin Mocha-inspired, matching components) --- */
 [data-md-color-scheme="futurist-dark"] {
-  --md-primary-fg-color:        #000; /* nav color */
-  --md-primary-bg-color:        #6BF178; /* nav font color */
-  --md-default-bg-color:        #02111b;
-  --md-default-fg-color--light: white;
-  --md-primary-fg-color--light: #000051;
-  --md-default-fg-color--lightest: #000;
-  --md-primary-fg-color--dark:  white;
-  --md-typeset-color: white;
-  --md-text-font-family: monospace;
-  --md-typeset-a-color: #6bf178; /* link color */
-  --md-shadow-z3: .15rem 0.15rem #E2E;
-  --md-code-fg-color: yellow;
-  --md-code-bg-color: black;
-  --md-typeset-h2-color: orange;
+  --md-primary-fg-color: var(--ftrst-surface);
+  --md-primary-bg-color: var(--ftrst-text);
+  --md-default-bg-color: var(--ftrst-bg);
+  --md-default-fg-color: var(--ftrst-text);
+  --md-default-fg-color--light: var(--ftrst-subtext);
+  --md-primary-fg-color--light: var(--ftrst-overlay);
+  --md-typeset-color: var(--ftrst-text);
+  --md-typeset-a-color: var(--ftrst-accent);
+  --md-text-font-family: var(--ftrst-font);
+  --md-code-font-family: var(--ftrst-mono);
+  --md-code-fg-color: var(--ftrst-text);
+  --md-code-bg-color: var(--ftrst-surface);
+  --md-typeset-h2-color: var(--ftrst-accent);
+  --md-shadow-z3: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 [data-md-color-scheme="futurist-dark"] h1 {
-    color: yellow;
+  color: var(--ftrst-text);
+  font-weight: 600;
 }
 
 [data-md-color-scheme="futurist-dark"] h2 {
-    color: fuchsia;
-    margin: .25em;
-    text-align: center;
+  color: var(--ftrst-accent);
+  margin: 1.5em 0 0.75em;
+  font-weight: 600;
+  text-align: left;
 }
 
 [data-md-color-scheme="futurist-dark"] h3 {
-    color: yellow;
-    margin: .5em;
+  color: var(--ftrst-green);
+  margin: 1.25em 0 0.5em;
+  font-weight: 600;
 }
 
 [data-md-color-scheme="futurist-dark"] hr {
-    height: 0;
-    border: .15em cyan dashed;
-    margin: 0;
+  height: 1px;
+  border: none;
+  background: var(--ftrst-overlay);
+  margin: 2em 0;
 }
 
 [data-md-color-scheme="futurist-dark"] code {
-    box-shadow: .2em .2em fuchsia!important;
-    border: outset .2em cyan;
-    background-color: #02111b;
-    color: #6bf178;
+  background-color: var(--ftrst-overlay);
+  color: var(--ftrst-yellow);
+  font-size: 0.85em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  box-shadow: none;
+  border: none;
 }
 
-[data-md-color-scheme="futurist-dark"] li:before {
-    content: "*";
-    position: absolute;
-    left: -.75em;
-    margin: auto;
-    color: #e2e;
-    font-size: 1.25em;
+[data-md-color-scheme="futurist-dark"] pre code {
+  background: var(--ftrst-surface);
+  color: var(--ftrst-text);
+  box-shadow: none;
+  border: 1px solid var(--ftrst-overlay);
+}
+
+[data-md-color-scheme="futurist-dark"] .md-typeset {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+[data-md-color-scheme="futurist-dark"] li::before {
+  content: "▸";
+  position: absolute;
+  left: -1.25em;
+  color: var(--ftrst-accent);
+  font-size: 0.85em;
+}
+
+/* --- Admonitions (dark) --- */
+[data-md-color-scheme="futurist-dark"] .admonition {
+  border-color: var(--ftrst-overlay);
+  background-color: var(--ftrst-surface);
+  color: var(--ftrst-text);
+  border-radius: 6px;
 }
 
 [data-md-color-scheme="futurist-dark"] .admonition.note {
-    border-color: yellow;
-    background-color: #02111b;
-    color: white;
-}
-
-[data-md-color-scheme="futurist-dark"] .admonition-title:before {
-    background-color: black!important;
+  border-color: var(--ftrst-accent);
 }
 
 [data-md-color-scheme="futurist-dark"] .admonition-title {
-    background-color: yellow!important;
-    color: black;
+  background-color: rgba(137, 180, 250, 0.1) !important;
+  color: var(--ftrst-accent) !important;
+  font-weight: 600;
 }
 
+[data-md-color-scheme="futurist-dark"] .admonition-title::before {
+  background-color: var(--ftrst-accent) !important;
+}
 
-[data-md-color-scheme="futurist-dark2"] {
-  --md-primary-fg-color:        #00008b; /* nav color */
-  --md-primary-bg-color:        #FFF; /* nav font color */
-  --md-default-bg-color:        #000051;
-  --md-default-fg-color--light: white;
-  --md-primary-fg-color--light: #000051;
-  --md-primary-fg-color--dark:  white;
-  --md-typeset-color: white;
-  --md-text-font-family: "monospace";
+/* --- Tables (dark) --- */
+[data-md-color-scheme="futurist-dark"] table {
+  background: var(--ftrst-surface);
+  border: 1px solid var(--ftrst-overlay);
+}
+
+[data-md-color-scheme="futurist-dark"] th {
+  background: var(--ftrst-overlay);
+  color: var(--ftrst-text);
+  font-weight: 600;
+}
+
+[data-md-color-scheme="futurist-dark"] td {
+  border-top: 1px solid var(--ftrst-overlay);
+}
+
+/* --- Blockquotes --- */
+[data-md-color-scheme="futurist-dark"] blockquote {
+  border-left: 3px solid var(--ftrst-accent);
+  color: var(--ftrst-subtext);
+}
+
+/* --- Light scheme equivalents --- */
+[data-md-color-scheme="futurist-light"] .admonition {
+  border-radius: 6px;
+}
+
+[data-md-color-scheme="futurist-light"] table {
+  border: 1px solid #dce0e8;
+}
+
+[data-md-color-scheme="futurist-light"] th {
+  background: #e6e9ef;
+  font-weight: 600;
+}
+
+[data-md-color-scheme="futurist-light"] td {
+  border-top: 1px solid #dce0e8;
 }

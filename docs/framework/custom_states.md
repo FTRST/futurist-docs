@@ -1,44 +1,64 @@
 # Custom States
-This article walks through States, what they are, how to use them, standard ones, and where custom ones are used.
 
-***
-## State References
-***
-States in many projects are referenced values.
+Applications built with futurist-components can create their own Jotai atoms for application-specific state.
 
-Futurist has a few different States.
+---
 
-***
-## Standard States
-***
-Here's some state standards..
+## When to Use Custom States
 
-***
-### DeviceDetail
-***
-```deviceDetail``` is a state included within the [futurist-core](core.md).
+- Your application needs data that persists across re-renders
+- Multiple components within your app need to share state
+- You want to access the device state (`deviceDetailAtom`) alongside your own data
 
-It creates an object that looks like this:
+---
 
-```
-{
-    width: __window_width__,
-    height: __window_height__,
-    windows: []
+## Example: Quantum Coin Flip
+
+The Quantum Coin Flip app uses a custom `selectedValue` state via `useState` (local to the component). For more complex apps, Jotai atoms are preferred:
+
+```js
+import { atom, useAtom } from 'jotai';
+
+const flipResultAtom = atom(null);
+
+function CoinFlipApp() {
+  const [result, setResult] = useAtom(flipResultAtom);
+  // ...
 }
 ```
 
-The ```width``` and ```height``` are the current dimensions of the usable desktop area.
+---
 
-These are referenced as the bounds when dragging Application windows, so it doesn't escape the usable space.
+## Accessing Standard State
 
-The ```windows``` array of window objects.
+Custom state can reference the standard device state:
 
-***
-#### Window Object
-***
-[futurist-core](core.md) shows the desktop interface, including the [Shortcuts](../components/shortcut.md).
+```js
+import { atom, useAtomValue } from 'jotai';
+import { deviceDetailAtom } from 'futurist-components';
 
-When a Shortcut is opened, a window object is added to the ```windows``` array.
+const myAppAtom = atom((get) => {
+  const device = get(deviceDetailAtom);
+  // Derive from device state
+  return {
+    isMobile: device.type === 'mobile',
+    windowCount: device.windows.length,
+  };
+});
+```
 
-This
+---
+
+## Sharing State Between Applications
+
+Jotai atoms defined at the top level of an app or module scope can be imported by multiple components, making them a convenient way to share state between different parts of your dashboard.
+
+For apps that need shared state (like BrainConnect streaming EEG data to ManageSessions), define atoms in a shared module:
+
+```js
+// states/sharedData.js
+import { atom } from 'jotai';
+
+export const brainwaveStreamAtom = atom([]);
+export const sessionsAtom = atom([]);
+```

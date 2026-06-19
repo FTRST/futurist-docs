@@ -1,102 +1,60 @@
-# Example Apps
-This page includes examples of purpose-built applications.
+# Example Applications
+
+This page includes examples of purpose-built applications using futurist-components.
 
 Each is open source for anyone to review and modify.
-***
-## Before Reviewing
-***
+
+---
+
+## Before Starting
 
 Each example includes:
 
-* The GitHub repo link
-* Summary of the Application
-* The Application ID for setup
+- The GitHub repo link
+- Summary of the application
+- The application ID for setup
 
-The GitHub repo for each Application includes more specific information.
+---
 
-!!! note "Questions / Problems / Contributions"
+## Local Development
 
-    If any problems arise using them, or you'd like to contribute, [make a pull request](https://github.com/ftrst/futurist-react)!
+To run the component library itself locally:
 
+```bash
+git clone https://github.com/xtrem3/futurist-components
+cd futurist-components
+yarn        # install
+yarn dev    # Vite dev server (HMR, port 5173)
+yarn build  # production build
+yarn test   # run tests
+yarn lint   # lint
+```
 
-***
-## Quantum Coin Flip
-***
+### DevPlayground
 
-* GitHub link is here: [Quantum Coin Flip](https://github.com/ftrst/futurist-qcf)
-* Application ID: ```qcf```
+futurist-components includes a **DevPlayground** for iterating on theming and window behavior. Mount it in any route:
 
-***
-### Application Summary
-***
+```jsx
+import { DevPlayground } from 'futurist-components';
 
-This Application uses [TabContainer](../components/tabcontainer.md) screens.
+function PlaygroundPage() {
+  return <DevPlayground />;
+}
+```
 
-It fetches data from an external endpoint and re-renders the content within the window after receiving it.
+Features:
+- 4 theme presets (Modern, Retro, Light, Warm)
+- Theme copy/import via JSON
+- Window spawning with different content types
+- Debug panel showing all windows (id, size, z-index)
+- ComponentShowcase button for full component demo
 
-A full walkthrough of this Application, including an explanation of how it works and all components, [can be found here](../framework/app_walkthrough.md).
-***
-## NetXplorer
-***
+### ComponentShowcase
 
-* GitHub link is here: [NetXplorer](https://github.com/ftrst/futurist-nxp)
-* Application ID: ```nxp```
+A scrollable demo of every component with live chart data:
 
-***
-### Application Summary
-***
+```jsx
+import { ComponentShowcase } from 'futurist-components';
 
-This Application relies on an external web service that asynchronously fetches, renders, and returns HTML content.
-
-The 
-
-***
-## Brain Connect
-***
-
-* GitHub link is here: [BrainConnect](https://github.com/ftrst/futurist-nxp)
-* Application ID: ```bcp```
-
-***
-### Application Summary
-***
-
-This Application focuses on Web APIs to interact with real-world hardware, specifically EEG headsets.
-
-It enables a bluetooth connection to the headset and starts the data stream to the browser.
-
-A custom state is used to store the data stream, which can be referenced by other Applications.
-
-***
-## Manage Sessions
-***
-
-* GitHub link is here: [ManageSessions](https://github.com/ftrst/futurist-nxp)
-* Application ID: ```mxs```
-
-***
-### Application Summary
-***
-
-This Application makes use of the custom state from ```BrainConnect```.
-
-With the constant stream of data, *Manage Sessions* creates slices of this data over a set of time.
-
-These slices are called Sessions. They can be exported or imported.
-
-***
-## Session Review
-***
-
-* GitHub link is here: [SessionReview](https://github.com/ftrst/futurist-nxp)
-* Application ID: ```srw```
-
-***
-### Application Summary
-***
-
-This Application makes use of the custom ```BrainConnect``` state.
-
-It charts the live view of incoming data streamed from the connected headset.
-
-Similarly, if Sessions are available, they can be reviewed.
+<ComponentShowcase />
+```

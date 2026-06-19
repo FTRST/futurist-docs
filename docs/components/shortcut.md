@@ -1,36 +1,52 @@
 # Shortcut
-This section covers the **Shortcut** component, its use, and capabilities.
 
-<figure markdown="span">
-  ![Shortcut component](../images/futurist-shortcut.png)
-  <figcaption>Shortcut component loaded with details</figcaption>
-</figure>
+This section covers the **Shortcut** component — the desktop icon that launches applications.
 
-***
+---
+
 ## Purpose
-***
-Shortcut is the "icon" that shows on the desktop.
 
-It can be moved on both mobile and desktop.
+Shortcut is the icon shown on the desktop. On click or tap, it opens the connected application. On mobile, it uses drag-to-click detection (fires click only if drag ≤ 10px within 300ms). On desktop, it is draggable via react-draggable.
 
-Once clicked (or tapped), the connected Application will open.
+---
 
-Currently, only one instance of an Application can be opened - clicking the Shortcut multiple times will **not** resort in multiple opened windows.
+## Props
 
-***
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `width` | string/number | yes | Starting width of the window when opened |
+| `icon` | string | yes | URL to the icon image |
+| `name` | string | yes | Display name shown below the icon |
+| `action` | function | yes | Function to open the window (called on click/tap) |
+
+---
+
 ## Usage
-***
-Referencing the [futurist.io](https://futurist.io) website, Shortcuts are loaded from a [ShortcutContainer](shortcutcontainer.md), which expects an array of values that are passed to create the Shortcuts.
 
-Shortcut expects the following to be passed:
+Shortcuts are typically rendered through **ShortcutContainer**, not used directly:
 
-* **width**: The starting width of the window
-* **icon**: A url to the icon
-* **name**: The name shown for the icon
-* **action**: The function to open the window.
+```jsx
+import { ShortcutContainer } from 'futurist-components';
 
-It is standard to implement Shortcut through a ShortcutContainer.
+const shortcuts = [
+  {
+    icon: 'https://futurist.io/icons/folder.png',
+    title: 'My App',
+    id: 'my-app',
+    windowData: {
+      id: 'my-app',
+      title: 'My App',
+      width: '400px',
+      height: '300px',
+    },
+  },
+];
 
-Using a ShortcutContainer, the above parameters are done for you.
+<ShortcutContainer
+  device={device}
+  shortcuts={shortcuts}
+  manipulateWindows={manipulateWindows}
+/>
+```
 
-Reference [ShortcutContainer](shortcutcontainer.md) for more information and examples.
+See [ShortcutContainer](shortcutcontainer.md) for details on the shortcuts array shape.

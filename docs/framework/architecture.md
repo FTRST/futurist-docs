@@ -1,79 +1,192 @@
-# Platform Architecture
-This section discusses in brief the core concepts, their roles, and purpose.
+# Architecture
 
-***
-## Introduction
-***
-Futurist is written primarily in Javascript.
+This section covers the architecture of **futurist-components** — the component system, theming, state management, and window system.
 
-To maximize customization and scalability, futurist was divided into three parts (Core, Sidebar, and Applications) and a state management framework.
+---
 
-The three parts are maintained separately within their own respective repos.
+## Overview
 
-A visual example of the architecture is below:
+futurist-components is a React UI kit built with:
 
-<figure markdown="span">
-  ![futurist architecture diagram](../images/futurist-platform-architecture.drawio.png){ width="300" }
-  <figcaption>Futurist architecture and sample event cycle</figcaption>
-</figure>
+- **React 18** — functional components, hooks, forwardRef
+- **styled-components v6** — CSS-in-JS with transient `$` props for DOM safety
+- **Jotai 2** — atomic state management for theme, device dimensions, and window state
+- **react-draggable** — window dragging
+- **re-resizable** — window resizing
+- **Vite** — library mode build
 
-With state standardization, different components, such as the core and sidebar, can access the state, as well as one or multiple applications, simultaneously.
+---
 
-***
-## Futurist Template
-***
-Futurist has a pre-built template, which is the best way to start working with futurist.
+## Theming System
 
-It is built from Core and Sidebar, has an Application, and uses a Standard State.
+All visual properties are driven by a single `styleSettings` object with three-layer resolution:
 
-All of this you can read more about it below.
+```
+prop → context (ThemeProvider) → hardcoded defaults
+```
 
-To get started with the template, check out the [Setup Guide](../setup_guide/quick_start.md).
+### ThemeProvider
 
-***
-## Core
-***
-Core handles the following:
+Wraps your app tree and provides the current theme via `StyleSettingsContext`:
 
-* Interaction with opening / closing Sidebar
-* Interactions with dragging Shortcuts
-* Interactions with opening / closing Applications
-* Event listeners for window-specific details (such as current height / width)
-* Interface for Applications
+```jsx
+<ThemeProvider>
+  <App />
+</ThemeProvider>
+```
 
-Core has a dedicated repo: [futurist-core](https://github.com/ftrst/futurist-core)
+Components read theme values with optional chaining, so any key can be omitted:
 
-***
-## Sidebar
-***
-Currently, Sidebar includes static content that can be customized directly from the repo.
+```js
+color: ${({ $s }) => $s?.titleBar?.textColor || '#cdd6f4'};
+```
 
-For future, Sidebar is expected to maintain Widgets, a micro version of Applications.
+### Theme Shape
 
-Sidebar has a dedicated repo: [futurist-sidebar](https://github.com/ftrst/futurist-sidebar)
-***
-## Applications
-***
-Applications are both aesthetically and functionally wrapped projects.
+```js
+{
+  window:     { backgroundColor: '#1e1e2e', borderColor: '#89b4fa' },
+  titleBar:   { backgroundColor: '#181825', textColor: '#cdd6f4' },
+  dimensions: { minWidth: 200, minHeight: 150 },
+  spacing:    { padding: '.75em', margin: '0' },
+  borders:    { width: '1px', style: 'solid' },
+  button:     { primaryText: '#cdd6f4', primaryBg: '#45475a' },
+}
+```
 
-They can include their own dedicated state, as well as access states of existing projects.
+### Four Presets
 
-The [Component Library](../components/overview.md) handles much of the complexity and creates a standard for capabilities, etc.
+```js
+import { themes } from 'futurist-components';
 
-There's numerous [App Examples](../development/example_apps.md) to review for anyone to use, remake, extend, and reference for new Applications.
+themes.modern   // Catppuccin Mocha-inspired dark (default)
+themes.retro    // Green-on-black CRT
+themes.light    // Clean light
+themes.warm     // Earthy brown/orange
+```
 
-To see a full walkthrough of an Application, its setup, and how it works, check out the [Application Walkthrough](app_walkthrough.md).
+See [ThemeProvider](../components/themeprovider.md) for full details.
 
-***
-## States
-***
-Not specific to futurist, States are values that can be referenced across parts of a project.
+---
 
-Under the hood, futurist States are [managed by Jotai](https://github.com/pmndrs/jotai), a primitive state management framework.
+## State Management (Jotai)
 
-Generally, States are meant to be cross-referenced by separate Applications and / or Core.
+### Device State
 
-There are two different types of States: 
+`deviceDetailAtom` tracks the viewport and window list:
 
-* [Standard States](standard_states.md) are ones that are created for the Framework.
-* [Custom States](custom_states.md) are ones that are built for Applications.
+```js
+{
+  width: 1366,          // current viewport width
+  height: 768,          // current viewport height
+  type: 'desktop',      // 'desktop' | 'mobile'
+  appWidth: 1366,       // usable width (adjusts for sidebar)
+  deskSpace: { width: 1366, height: 768 },
+  windows: []           // array of window objects
+}
+```
+
+**`useDeviceDetail()`** — hook that listens to `window.resize` and returns device state.
+
+### Window Manipulation
+
+**`windowManipulatorAtom`** — single writable atom dispatching action objects:
+
+| Type | Effect |
+|------|--------|
+| `add` | Pushes a new window to `device.windows[]` |
+| `remove` | Filters out the window by id |
+| `update` | Merges properties (resize, maximize state) |
+| `reindex` | Brings window to front (zIndex: 99999) |
+
+**Utility functions** wrapping the atom:
+
+```js
+import { openWindow, closeWindow, bringToFront, resizeWindow } from 'futurist-components';
+
+openWindow(manipulateWindows, windowData);
+closeWindow(manipulateWindows, id);
+bringToFront(manipulateWindows, id);
+resizeWindow(manipulateWindows, id, { width, height, maximize, prevWidth, prevHeight });
+```
+
+### Theme Atom
+
+```js
+import { themeAtom, updateThemeAtom, resetThemeAtom } from 'futurist-components';
+
+// Read current theme
+const theme = useAtomValue(themeAtom);
+
+// Deep-merge partial update
+const update = useSetAtom(updateThemeAtom);
+update({ titleBar: { textColor: '#fab387' } });
+
+// Full replace
+useSetAtom(themeAtom)(themes.light);
+```
+
+---
+
+## Window System
+
+### BaseWindow
+
+Each window instance is a `BaseWindow` component that:
+
+1. Reads its dimensions from `device.windows[]` by `id`
+2. Initializes position cascading from {30,30} by 25px per window
+3. Provides drag via react-draggable (handle: `.modal-title-bar`, bounds: parent)
+4. Provides resize via re-resizable (min from `styleSettings.dimensions`)
+5. Manages maximize/minimize with saved/restored prev dimensions
+6. Re-indexes z-index on click (target: 99999, others by array order)
+
+### Component Tree
+
+```
+BaseWindow
+├── styled.div (StyledWindow — border, background, absolute position)
+│   ├── TitleBar (.modal-title-bar — drag handle)
+│   │   ├── StyledMaximizeButton / StyledMinimizeButton
+│   │   ├── StyledTitle (window title)
+│   │   └── StyledCloseButton
+│   └── re-resizable (content area)
+│       └── WindowContent (inner wrapper — border, bg, padding)
+│           └── {children}
+```
+
+---
+
+## Styling Conventions
+
+### Transient `$` Props
+
+All style-driving props use the `$` prefix — required by styled-components v6 to prevent React DOM warnings:
+
+```js
+const StyledDiv = styled.div`
+  color: ${({ $s }) => $s?.titleBar?.textColor || '#cdd6f4'};
+  background: ${({ $s }) => $s?.window?.backgroundColor || '#1e1e2e'};
+`;
+```
+
+Never pass `styleSettings`, `theme`, or raw style objects as non-transient props.
+
+### Inline Styling
+
+Prefer inline destructured template literals over `css` helper functions:
+
+```js
+// GOOD — inline
+const Header = styled.h3`
+  color: ${({ $s }) => $s?.titleBar?.textColor};
+`;
+
+// AVOID — unnecessary indirection
+const headerStyle = (s) => css` color: ${s?.titleBar?.textColor}; `;
+const Header = styled.h3` ${p => headerStyle(p.$s)} `;
+```
+
+### Defaults Must Be Modern
+
+Every `||` fallback uses Catppuccin Mocha colors (`#cdd6f4`, `#1e1e2e`, `#89b4fa`, `#45475a`, `#181825`) — never retro green-on-black.

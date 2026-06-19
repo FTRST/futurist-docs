@@ -1,72 +1,42 @@
 # WindowTitle
-This section covers the **WindowTitle** component, its use, capabilities, and style variations.
 
-<figure markdown="span">
-  ![WindowTitle component](../images/futurist-windowtitle.png){ width="300" }
-  <figcaption>WindowTitle component is highlighted in red</figcaption>
-</figure>
+This section covers the **WindowTitle** component — a section header with a themed bottom border.
 
-***
+---
+
 ## Purpose
-***
-```WindowTitle``` is an actionable interaction for users, just like your standard HTML button.
 
-The WindowTitle component receives and acts upon a function, defined as an action, and references a set of values.
+WindowTitle renders an `<h4>` heading with a bottom border colored from the current theme. It is used for section headers within window content — not for interactive buttons.
 
-***
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | string | — | The heading text |
+| `style` | object | — | Additional CSS styles |
+| `styleSettings` | object | context → defaults | Override theme for this title |
+
+---
+
 ## Usage
-***
-WindowTitle expects the following to be passed as parameters:
 
-* **label**: The text label for the button.
-* **action**: The onClick for the button.
-* **value**: The value to be referenced within the onClick.
+```jsx
+import { WindowContent, WindowTitle } from 'futurist-components';
 
-Reference the **Core Example** to see basic usage.
-
-This will create a button, a function on which it interacts, and a value which it uses in the function.
-
-***
-## Core Example
-***
-```
-import Button from 'futurist-components';
-
-function App() {
-    let count = 0;
-    function increaseCount(value) {
-        count += value;
-    }
-    return (
-        <>
-            <Button label="click me" action={increaseCount} value={1} />
-            <br />
-            <span>The count is: {count}</count>
-        </>
-    )
-}
+<WindowContent>
+  <WindowTitle value="Settings" />
+  <p>Your settings content here.</p>
+</WindowContent>
 ```
 
-***
-## Advanced Usage
-***
-```Button``` includes additional parameters for theme variations and alternately accessible parameters from the button.
+---
 
-***
-## Optional Styles
-***
-By passing the **variant** parameter, styling can change.
+## Theme Properties
 
-There are two variations:
-
-* **default**: Automatically referenced.
-* **inverted**: A separate theme styling.
-
-An example of usage would be similar to the **Core Example** but with the extra parameter passed:
-
-```
-<Button label="click me" action={increaseCount} value={1} variant="inverted" />
-```
-***
-## Optional Parameters
-***
+| Key | Fallback | Effect |
+|-----|----------|--------|
+| `titleBar.textColor` | `#cdd6f4` | Heading text color |
+| `window.borderColor` | `#89b4fa` | Bottom border color |
+| `spacing.padding` | `.5em` | Heading padding (default from theme, overridden by `.75em` in WindowContent) |

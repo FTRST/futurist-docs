@@ -1,95 +1,98 @@
 # Adding Applications
 
-***
-## Adding Applications
-***
-To add in another Application, such as the ones from the [Examples](development/example_apps), there's a few easy steps required.
+This guide covers adding new applications to a dashboard built with futurist-components.
 
-Please note: while the applications are open source and available on Github, **they are not published to npm**.
+---
 
-To retrieve them, you can build the applications from source or use our (soon to be released) package repo.
+## 1) Define the Shortcut
 
-***
-### 1) Install the Package
-***
-Applications are added ("installed") like any other npm package:
+Add an entry to your `shortcuts` array:
 
-```npm install <application_name>```
-
-For example, to add ```Quantum Coin Flip``` use the following:
-
-```npm install ftrst-quantum-flip```
-
-***
-### 2) Import the Application
-***
-A manual configuration is required to add the application within the project.
-
-To do this, you'll need to know the application id.
-
-The README within the project should provide an identifier for the "app", as well as the main identifier for the app being added.
-
-In the case of ```ftrst-quantum-flip``` the app id is ```qcf``` and the install is ```QuantumCoinFlip```.
-
-So, to add this, you'll go to ```{your_directory}/src/components/Applications.js``` and add the line:
-
-```import QuantumCoinFlip from 'ftrst-quantum-flip';```
-
-***
-### 3) Update the Shortcut Container
-***
-Once the Application is installed, manually update the ```shortcuts``` array.
-
-This is then packed into the [ShortcutContainer](components/shortcutcontainer.md) to display [Shorcuts](components/shortcut.md), or icons.
-
-The one included by default within the [futurist-core](arch/core.md) looks like this:
-```
+```js
 const shortcuts = [
   {
-    icon: "./icons/qcf.png",
-    title: "Quantum Coin Flip",
-    id: "qcf",
+    icon: './icons/my-app.png',   // URL to shortcut icon
+    title: 'My App',              // Display name
+    id: 'my-app',                 // Unique identifier
     windowData: {
-      id: "qcf",
-      title: "Quantum Coin Flip",
-      width: "300px",
-      height: "300px",
-      XCoord: 10,
-      YCoord: 10,
+      id: 'my-app',
+      title: 'My App',
+      width: '400px',
+      height: '300px',
     },
   },
 ];
 ```
 
-To update this with ```ftrst-quantum-flip```, the final version would look like:
+---
 
+## 2) Create the Application Component
+
+```jsx
+import { BaseWindow, Button, WindowContent, WindowTitle } from 'futurist-components';
+
+function MyApp({ device, manipulateWindows }) {
+  return (
+    <BaseWindow
+      id="my-app"
+      device={device}
+      manipulateWindows={manipulateWindows}
+    >
+      <WindowContent>
+        <WindowTitle value="My App" />
+        <p>Application content goes here.</p>
+        <Button label="Action" action={() => alert('Hello!')} variant="primary" />
+      </WindowContent>
+    </BaseWindow>
+  );
+}
 ```
-const shortcuts = [
-  {
-    icon: "./icons/qcf.png",
-    title: "Quantum Coin Flip",
-    id: "qcf",
-    windowData: {
-      id: "qcf",
-      title: "Quantum Coin Flip",
-      width: "300px",
-      height: "300px",
-      xCoord: 10,
-      yCoord: 10,
-    },
-  },
-];
+
+---
+
+## 3) Render the Application
+
+In your main app component, render the application alongside the ShortcutContainer:
+
+```jsx
+function Desktop() {
+  const device = useDeviceDetail();
+  const manipulateWindows = useSetAtom(windowManipulatorAtom);
+
+  return (
+    <>
+      <ShortcutContainer device={device} shortcuts={shortcuts} manipulateWindows={manipulateWindows} />
+      <MyApp device={device} manipulateWindows={manipulateWindows} />
+    </>
+  );
+}
 ```
-***
-### 4) Create the Application State (optional)
-***
-Applications refer to the [deviceDetail](arch/using_states) state for functionality and bounds updating.
 
-However, some Applications also require their own state in order to function.
+The BaseWindow will only render when a matching window exists in `device.windows[]` — clicking the shortcut adds it.
 
-There are two standards in place to know if an Application requires its own state:
+---
 
-* Check the Readme: Any requirements for states should be included within the project Readme. 
-* Check the States folder: Even if not directly notated, Applications should contain the required states via the ```States``` folder.
+## 4) Application-Specific State (Optional)
 
-The ```ftrst-quantum-flip``` example does not require a separate state.
+If your app needs its own state beyond the device state:
+
+```jsx
+import { atom, useAtom } from 'jotai';
+
+const appStateAtom = atom({
+  count: 0,
+  settings: {},
+});
+
+function MyApp({ device, manipulateWindows }) {
+  const [appState, setAppState] = useAtom(appStateAtom);
+  // ...
+}
+```
+
+---
+
+## See Also
+
+- [Example Apps](../development/example_apps.md) — reference implementations
+- [App Walkthrough](../framework/app_walkthrough.md) — detailed walkthrough of an application
